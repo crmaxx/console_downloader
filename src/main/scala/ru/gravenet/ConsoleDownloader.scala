@@ -1,5 +1,5 @@
 /**
- * Created by mzhukov on 2015-01-30.
+ * Created by Maxim Zhukov <crmaxx@ya.ru> on 2015-01-30.
  */
 
 import org.rogach.scallop.{ScallopConf, Scallop}
