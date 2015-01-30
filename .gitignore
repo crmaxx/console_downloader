@@ -1,0 +1,37 @@
+*.class
+*.log
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+.idea/scopes/
+.idea/dictionaries/
+.idea/inspectionProfiles/
+.idea/libraries/
+.idea/modules/
+.idea/.name
+.idea/*.xml
+!.idea/vcs.xml
+/classes
+/out
+/SDK/*SDK
+
+/*.bat
+out
+build
+.DS_Store
+*~
+
+testdata/debugger
