@@ -16,6 +16,7 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 
+# IDEA specific
 .idea/scopes/
 .idea/dictionaries/
 .idea/inspectionProfiles/
@@ -24,6 +25,7 @@ project/plugins/project/
 .idea/.name
 .idea/*.xml
 !.idea/vcs.xml
+
 /classes
 /out
 /SDK/*SDK
