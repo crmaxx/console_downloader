@@ -8,6 +8,6 @@ package object downloader {
   import scala.concurrent.ExecutionContext.Implicits.global
   implicit val executionContext = global
 
-  case class Downloader(url: String, file: String, outputDir: String)
-  case class DownloadResult(file: String, resp: Either[String, Int])
+  case class Download(url: String, file: String, outputDir: String, bytesPerSecond: Double)
+  case class DownloadResult(file: String, resp: Either[String, Long])
 }

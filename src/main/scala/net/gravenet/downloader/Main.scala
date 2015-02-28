@@ -20,7 +20,7 @@ object Main extends App with Utils {
   val limitRate = parseRateLimit(config.limitRate.get.get)
 
   implicit val system = ActorSystem("downloader")
-  val manager = system.actorOf(Props(new DownloadManager(downloadList, outputDir, numberOfThreads)), "manager")
+  val manager = system.actorOf(Props(new DownloadManager(downloadList, outputDir, numberOfThreads, limitRate)), "manager")
 
   // Await end of program
   system.awaitTermination()
