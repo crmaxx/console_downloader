@@ -1,8 +1,14 @@
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
+val dateFormat = new SimpleDateFormat("yyyyMMdd")
+val currentDate = Calendar.getInstance().getTime()
+
 organization := "ru.gravenet"
 
 name := "console-downloader"
 
-version := "0.1"
+version := dateFormat.format(currentDate)
 
 scalaVersion := "2.11.5"
 

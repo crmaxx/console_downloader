@@ -1,15 +1,15 @@
-package net.gravenet.downloader
-
-import org.rogach.scallop.{Scallop, ScallopConf}
-
 /**
  * Created by Maxim Zhukov <crmaxx@ya.ru> on 2015-02-12.
  */
 
+package net.gravenet.downloader
+
+import org.rogach.scallop.{Scallop, ScallopConf}
+
 class Config(arguments: Seq[String], onError: (Throwable, Scallop) => Nothing) extends ScallopConf(arguments) {
   version("ConsoleDownloader 0.1 © 2015 crmaxx")
   banner("""
-           | Usage: java -jar console-downloader-0.1.jar [options]
+           | Usage: java -jar console-downloader-VERSION.jar [options]
            |
            | For https://github.com/Ecwid/new-job/blob/master/Console-downloader.md
            |
