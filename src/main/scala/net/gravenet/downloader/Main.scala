@@ -15,9 +15,21 @@ object Main extends App with Utils {
   val config = new Config(args, onError = onError)
 
   val outputDir = getOutputDir(config.outputDir.get.get)
-  val downloadList = parseDownloadList(config.fileList.get.get)
+
+  val downloadList = parseDownloadList(config.fileList.get.get) match {
+    case Some(list) => list
+    case None =>
+      Logger.printWarn("Nothing to download")
+      sys.exit(0)
+  }
+
   val numberOfThreads = config.numberOfThreads.get.get
-  val limitRate = parseRateLimit(config.limitRate.get.get)
+  val limitRate = parseRateLimit(config.limitRate.get.get) match {
+    case Some(i) => i
+    case None =>
+      Logger.printWarn("Wrong rate limit")
+      sys.exit(0)
+  }
 
   implicit val system = ActorSystem("downloader")
   val manager = system.actorOf(Props(new DownloadManager(downloadList, outputDir, numberOfThreads, limitRate)), "manager")

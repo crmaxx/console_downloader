@@ -12,20 +12,31 @@ trait Utils {
   def createDirectoryIfNeeded(directory: File): Unit = {
     if (!directory.exists) {
       Logger.printInfo("Creating directory: %s.".format(directory.getPath))
-      directory.mkdir
+      try {
+        directory.mkdir
+      } catch {
+        case  e : Throwable =>
+          Logger.printError("Error on create new directory :%s".format(e.getMessage))
+      }
     }
   }
 
   // TODO: Make lazy read downloadList from file with control unique links on download
-  def readFileAsList(filePatch: String): List[String] = {
-    val file = new File(filePatch)
+  def readFileAsList(filePatch: String): Option[List[String]] = {
+    try {
+      val file = new File(filePatch)
 
-    if (!file.exists && !file.canRead) {
-      Logger.printError("Unable to read %s.".format(file.getName))
-      sys.exit(1)
+      if (!file.exists && !file.canRead) {
+        Logger.printError("Unable to read %s.".format(file.getName))
+        sys.exit(1)
+      }
+
+      Some(Source.fromFile(file)(Codec.UTF8).getLines().toList.filter(_.nonEmpty).distinct)
+    } catch {
+      case  e : Throwable =>
+        Logger.printError("Error on read download list file: %s".format(e.getMessage))
+        None
     }
-
-    Source.fromFile(file)(Codec.UTF8).getLines().toList.filter(_.nonEmpty).distinct
   }
 
   def quitIfEmpty(downloadList: List[String]): Unit = {
@@ -35,27 +46,40 @@ trait Utils {
     }
   }
 
-  def convertListToMap(downloadList: List[String]): Map[String,String] = {
+  def convertListToMap(downloadList: List[String]): Option[Map[String,String]] = {
     // TODO: case with ' ' in url
-    val urls = downloadList.map(_.split(' ').head)
-    val files = downloadList.map(_.split(' ').tail.head)
-    urls.zip(files).toMap
+    try {
+      val urls = downloadList.map(_.split(' ').head)
+      val files = downloadList.map(_.split(' ').tail.head)
+      Some(urls.zip(files).toMap)
+    } catch {
+      case e : Throwable =>
+        Logger.printError("Error on parse download list file: %s".format(e.getMessage))
+        None
+    }
+
   }
 
-  def parseDownloadList(filePatch: String): Map[String,String] = {
+  def parseDownloadList(filePatch: String): Option[Map[String,String]] = {
     val downloadList = readFileAsList(filePatch)
-    quitIfEmpty(downloadList)
-    convertListToMap(downloadList)
+    quitIfEmpty(downloadList.get)
+    convertListToMap(downloadList.get)
   }
 
-  def parseRateLimit(rateLimit: String): Int = {
-    if (rateLimit.isEmpty) return -1
+  def parseRateLimit(rateLimit: String): Option[Int] = {
+    if (rateLimit.isEmpty) return None
     val (value, postfix) = rateLimit.splitAt(rateLimit.length - 1)
 
-    postfix match {
-      case "k" => 1024 * value.toInt
-      case "m" => 1024 * 1024 * value.toInt
-      case _ => rateLimit.toInt
+    try {
+      postfix match {
+        case "k" => Some(1024 * value.toInt)
+        case "m" => Some(1024 * 1024 * value.toInt)
+        case _ => Some(rateLimit.toInt)
+      }
+    } catch {
+      case e : Throwable =>
+        Logger.printError("Error on parse rate limit: %s".format(e.getMessage))
+        None
     }
   }
 
