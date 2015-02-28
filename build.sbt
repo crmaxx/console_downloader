@@ -2,7 +2,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 
 val dateFormat = new SimpleDateFormat("yyyyMMdd")
-val currentDate = Calendar.getInstance().getTime()
+val currentDate = Calendar.getInstance().getTime
 
 organization := "ru.gravenet"
 
