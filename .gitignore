@@ -17,14 +17,7 @@ project/plugins/project/
 .worksheet
 
 # IDEA specific
-.idea/scopes/
-.idea/dictionaries/
-.idea/inspectionProfiles/
-.idea/libraries/
-.idea/modules/
-.idea/.name
-.idea/*.xml
-!.idea/vcs.xml
+.idea
 
 /classes
 /out
