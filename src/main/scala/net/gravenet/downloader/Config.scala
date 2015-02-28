@@ -18,7 +18,7 @@ class Config(arguments: Seq[String], onError: (Throwable, Scallop) => Nothing) e
   footer("\nMail bug reports and suggestions to <crmaxx@gmail.com>.")
 
   val numberOfThreads = opt[Int](required = true, default = Some(2), validate = (0<), descr = "count of concurrent downloads")
-  val limitRate = opt[String](descr = "limit download rate to RATE.")
+  val limitRate = opt[String](required = true, descr = "limit download rate to RATE.")
   val fileList = opt[String](required = true, descr = "download URLs found in local FILE.")
   val outputDir = opt[String](required = true, short = 'o', descr = "save files to DIR")
 
