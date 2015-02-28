@@ -6,13 +6,17 @@ package net.gravenet.downloader
 
 import akka.actor.{Props, Actor}
 
-class DownloadManager(downloadList: Map[String, String], outputDir: String, numberOfThreads: Int) extends Actor {
+class DownloadManager(downloadList: Map[String, String], outputDir: String, numberOfThreads: Int, limitRate: Int) extends Actor {
   // TODO: brainstorming about remove var
+  var processedBytes: Long = 0
   var downloadListSize = downloadList.size
   var processedLinks = numberOfThreads
-  var processedBytes = 0
+  val bytesPerSecond = limitRate / numberOfThreads
 
-  downloadList.take(numberOfThreads).map{ case (url, file) => downloader(url, file) }
+  downloadList.take(numberOfThreads).map {
+    case (url, file) =>
+      downloader(url, file, outputDir, bytesPerSecond)
+  }
 
   def receive = {
     case DownloadResult(file, resp) =>
@@ -29,18 +33,20 @@ class DownloadManager(downloadList: Map[String, String], outputDir: String, numb
       if (downloadListSize == 0) {
         Logger.printInfo(s"Total downloaded $processedBytes bytes.")
         context.system.shutdown()
-      }
-      else {
-        downloadList.drop(processedLinks).take(1).map{ case (url, file) => downloader(url, file) }
+      } else {
+        downloadList.drop(processedLinks).take(1).map {
+          case (url, file) =>
+            downloader(url, file, outputDir, bytesPerSecond)
+        }
         processedLinks += 1
       }
     case msg =>
       Logger.printError(s"DownloadManager: Something wrong. $msg")
   }
 
-  private def downloader(url: String, file: String): Unit = {
+  private def downloader(url: String, file: String, outputDir: String, bytesPerSecond: Double): Unit = {
     val downloader = context.actorOf(Props(new DownloaderActor))
     Logger.printInfo(s"Start download $url to $outputDir/$file")
-    downloader ! Downloader(url, file, outputDir)
+    downloader ! Download(url, file, outputDir, bytesPerSecond)
   }
 }

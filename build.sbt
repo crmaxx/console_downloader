@@ -15,7 +15,8 @@ scalaVersion := "2.11.5"
 libraryDependencies ++= Seq(
   "org.rogach" %% "scallop" % "0.9.5",
   "pl.project13.scala" %% "rainbow" % "0.2",
-  "com.typesafe.akka" %% "akka-actor" % "2.3.9"
+  "com.typesafe.akka" %% "akka-actor" % "2.3.9",
+  "com.google.guava" % "guava" % "18.0"
 )
 
 assemblyJarName in assembly := s"console-downloader-${version.value}.jar"
