@@ -35,8 +35,8 @@ class DownloadManager(downloadList: Map[String, String], outputDir: String, numb
         context.system.shutdown()
       } else {
         downloadList.drop(processedLinks).take(1).map {
-          case (url, file) =>
-            downloader(url, file, outputDir, bytesPerSecond)
+          case (url, fileName) =>
+            downloader(url, fileName, outputDir, bytesPerSecond)
         }
         processedLinks += 1
       }
