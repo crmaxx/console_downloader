@@ -2,7 +2,7 @@
  * Created by Maxim Zhukov <crmaxx@ya.ru> on 2015-02-28.
  */
 
-package net.gravenet
+package ru.gravenet
 
 package object downloader {
   import scala.concurrent.ExecutionContext.Implicits.global

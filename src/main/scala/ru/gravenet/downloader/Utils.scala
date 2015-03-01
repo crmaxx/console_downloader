@@ -2,7 +2,7 @@
  * Created by Maxim Zhukov <crmaxx@ya.ru> on 2015-02-28.
  */
 
-package net.gravenet.downloader
+package ru.gravenet.downloader
 
 import java.io.File
 

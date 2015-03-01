@@ -2,7 +2,7 @@
  * Created by Maxim Zhukov <crmaxx@ya.ru> on 2015-01-30.
  */
 
-package net.gravenet.downloader
+package ru.gravenet.downloader
 
 import akka.actor._
 import org.rogach.scallop.Scallop

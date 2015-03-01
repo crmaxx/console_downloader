@@ -2,7 +2,7 @@
  * Created by Maxim Zhukov <crmaxx@ya.ru> on 2015-02-12.
  */
 
-package net.gravenet.downloader
+package ru.gravenet.downloader
 
 import org.rogach.scallop.{Scallop, ScallopConf}
 
